@@ -1,0 +1,14 @@
+{
+  "name": "todo-api",
+  "version": "1.0.0",
+  "description": "A Todo App",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Dan Poulsen",
+  "license": "ISC",
+  "dependencies": {
+    "mongodb": "^3.0.8"
+  }
+}
