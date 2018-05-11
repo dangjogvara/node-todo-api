@@ -9,6 +9,7 @@
   "author": "Dan Poulsen",
   "license": "ISC",
   "dependencies": {
+    "@types/mongodb": "^3.0.18",
     "mongodb": "^3.0.8"
   }
 }
