@@ -5,17 +5,21 @@ mongoose.connect('mongodb://localhost:27017/TodoApp');
 
 var Todo = mongoose.model('Todo', {
   text: {
-    type: String
+    type: String,
+    required: true,
+    minlength: 1
   },
   completed: {
-    type: Boolean
+    type: Boolean,
+    default: false
   },
   completedAt: {
-    type: Number
+    type: Number,
+    default: null
   }
 });
 
-var newTodo = new Todo({text: 'Cook dinner'});
+var newTodo = new Todo({ text: 'Cook dinner' });
 
 newTodo.save().then((doc) => {
   console.log('Saved todo', doc);
