@@ -53,6 +53,25 @@ app.get('/todos/:id', (req, res) => {
   })
 });
 
+// delete user
+app.delete('/todos/:id', (req, res) => {
+  let id = req.params.id;
+
+  if (!ObjectID.isValid(id)) {
+    return res.status(404).send();
+  }
+
+  Todo.findByIdAndRemove(id).then((todo) => {
+    if (!todo) {
+      res.status(404).send();
+    }
+    res.send(todo);
+  }).catch((e) => {
+    res.status(400).send();
+  });
+
+});
+
 // add User
 app.post('/user', (req, res) => {
   let user = new User({name: req.body.name, email: req.body.email});
