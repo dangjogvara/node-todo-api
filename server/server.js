@@ -2,11 +2,11 @@ const _ = require('lodash');
 const express = require('express');
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
-const {ObjectID} = require('mongodb');
+const { ObjectID } = require('mongodb');
 
-const {mongoose} = require('./db/mongoose');
-const {Todo} = require('../models/todo');
-const {User} = require('../models/user')
+const { mongoose } = require('./db/mongoose');
+const { Todo } = require('../models/todo');
+const { User } = require('../models/user')
 
 const port = process.env.PORT || 3000;
 
@@ -18,7 +18,7 @@ app.use(bodyParser.json());
 
 // add todo
 app.post('/todos', (req, res) => {
-  let todo = new Todo({text: req.body.text});
+  let todo = new Todo({ text: req.body.text });
 
   todo.save().then((doc) => {
     res.send(doc);
@@ -30,7 +30,7 @@ app.post('/todos', (req, res) => {
 // get todos
 app.get('/todos', (req, res) => {
   Todo.find().then((todos) => {
-    res.send({todos});
+    res.send({ todos });
   }, (e) => {
     res.status(400).send(e);
   });
@@ -48,7 +48,7 @@ app.get('/todos/:id', (req, res) => {
     if (!todo) {
       res.status(404).send();
     }
-    res.send({todo});
+    res.send({ todo });
   }).catch((e) => {
     res.status(400).send();
   })
@@ -91,11 +91,11 @@ app.patch('/todos/:id', (req, res) => {
 
   Todo.findByIdAndUpdate(id, {
     $set: body
-  }, {new: true}).then((todo) => {
+  }, { new: true }).then((todo) => {
     if (!todo) {
       return res.status(404).send();
     }
-    res.send({todo});
+    res.send({ todo });
 
   }).catch((e) => {
     res.status(400).send();
@@ -103,13 +103,14 @@ app.patch('/todos/:id', (req, res) => {
 
 });
 
-// add User
-app.post('/user', (req, res) => {
-  let user = new User({name: req.body.name, email: req.body.email});
-  console.log(req.body);
-  user.save().then((doc) => {
-    res.send(doc);
-  }, (e) => {
+// add user
+app.post('/users', (req, res) => {
+  let body = _.pick(req.body, ['email', 'password']);
+  let user = new User(body);
+
+  user.save().then((user) => {
+    res.send(user);
+  }).catch((e) => {
     res.status(400).send(e);
   });
 });
