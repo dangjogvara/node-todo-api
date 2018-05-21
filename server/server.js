@@ -73,7 +73,7 @@ app.delete('/todos/:id', (req, res) => {
 
 });
 
-// update
+// update todo
 app.patch('/todos/:id', (req, res) => {
   let id = req.params.id;
   let body = _.pick(req.body, ['text', 'completed']);
