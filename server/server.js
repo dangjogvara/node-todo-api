@@ -141,6 +141,7 @@ app.get('/users/profile', authenticate, (req, res) => {
   res.send(req.user);
 });
 
+// Login
 app.post('/users/login', (req, res) => {
   let body = _.pick(req.body, ['email', 'password']);
 
@@ -153,6 +154,18 @@ app.post('/users/login', (req, res) => {
     .catch((e) => {
       res.status(400).send();
     });
+});
+
+// Logout
+app.delete('/users/profile/logout', authenticate, (req, res) => {
+  req.user.removeToken(req.token).then(
+    () => {
+      res.status(200).send();
+    },
+    () => {
+      res.status(400).send();
+    }
+  );
 });
 
 app.listen(port, () => {
