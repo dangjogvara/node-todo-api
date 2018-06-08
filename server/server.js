@@ -19,8 +19,11 @@ app.use(morgan('tiny'));
 app.use(bodyParser.json());
 
 // add todo
-app.post('/todos', (req, res) => {
-  let todo = new Todo({ text: req.body.text });
+app.post('/todos', authenticate, (req, res) => {
+  let todo = new Todo({
+    text: req.body.text,
+    _creator: req.user._id
+  });
 
   todo.save().then(
     (doc) => {
@@ -33,8 +36,8 @@ app.post('/todos', (req, res) => {
 });
 
 // get todos
-app.get('/todos', (req, res) => {
-  Todo.find().then(
+app.get('/todos', authenticate, (req, res) => {
+  Todo.find({ _creator: req.user._id }).then(
     (todos) => {
       res.send({ todos });
     },
